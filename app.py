@@ -34,8 +34,8 @@ class PredictionInput(BaseModel):
 import requests
 
 # Replace this with your actual OpenWeather API key
-API_KEY = "1258557f4547617b0afa44facdab4dd6"
-CITY = "Marathahalli"  # For example, "London"
+API_KEY = "YOUR_API_KEY"
+CITY = "YOUR_CITY"  # For example, "London"
 UNIT = "metric"  # You can change this to "imperial" for Fahrenheit, or "metric" for Celsius
 
 @app.get("/fetch_real_data")
