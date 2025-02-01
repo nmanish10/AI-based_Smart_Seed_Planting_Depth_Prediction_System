@@ -24,7 +24,8 @@ df = pd.read_csv(file_path)
 
 # Encode categorical features (if any categorical features need to be encoded)
 le = LabelEncoder()
-df['Soil Type'] = le.fit_transform(df['Soil Type'])
+soil_le = LabelEncoder()
+df['Soil Type'] = soil_le.fit_transform(df['Soil Type'])
 df['Seed Type'] = le.fit_transform(df['Seed Type'])
 
 # Define features and target variable
@@ -102,6 +103,7 @@ print(f"Ensemble Voting Regressor R²: {voting_r2:.4f}")
 joblib.dump(voting_regressor, 'voting_regressor_model.pkl')
 joblib.dump(scaler, 'scaler.pkl')
 joblib.dump(le, 'label_encoder.pkl')
+joblib.dump(soil_le, 'soil_label_encoder.pkl')
 
 # Optionally, save individual best models if needed
 for name, model in best_models:
