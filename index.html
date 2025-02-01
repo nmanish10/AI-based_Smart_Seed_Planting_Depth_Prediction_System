@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Seed Planting Depth Predictor</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="main-heading">🌱 AI-Based Smart Seed Planting Depth Predictor</h1>
+
+        <form id="prediction-form" onsubmit="submitData(event)">
+            <fieldset>
+                <legend class="section-title">🌍 Soil & Weather Data</legend>
+                <div class="feature-grid">
+                    <div class="feature">
+                        <label for="soil-type"><i class="fas fa-seedling"></i> Soil Type:</label>
+                        <select id="soil-type" name="soil_type" required>
+                            <option value="" disabled selected>Select Soil Type</option>
+                            <option value="clay">Clay</option>
+                            <option value="loamy">Loamy</option>
+                            <option value="sandy">Sandy</option>
+                        </select>
+                    </div>
+                    <div class="feature">
+                        <label for="soil-moisture"><i class="fas fa-tint"></i> Soil Moisture (%):</label>
+                        <input type="number" id="soil-moisture" name="soil_moisture" min="0" max="100" step="0.01" value="50.00" required>
+                    </div>
+                    <div class="feature">
+                        <label for="temperature"><i class="fas fa-thermometer-half"></i> Temperature (°C):</label>
+                        <input type="number" id="temperature" name="temperature"  step="0.01" required>
+                    </div>
+                    <div class="feature">
+                        <label for="rainfall"><i class="fas fa-cloud-showers-heavy"></i> Rainfall (mm):</label>
+                        <input type="number" id="rainfall" name="rainfall" step="0.01" required>
+                    </div>
+                    <div class="feature">
+                        <label for="humidity"><i class="fas fa-water"></i> Humidity (%):</label>
+                        <input type="number" id="humidity" name="humidity" step="0.01" required>
+                    </div>
+                    <div class="feature">
+                        <label for="seed-type"><i class="fas fa-seedling"></i> Seed Type:</label>
+                        <select id="seed-type" name="seed_type" required>
+                            <option value="" disabled selected>Select Seed Type</option>
+                            <option value="wheat">Wheat</option>
+                            <option value="carrot">Carrot</option>
+                            <option value="soybean">Soybean</option>
+                            <option value="cotton">Cotton</option>
+                            <option value="corn">Corn</option>
+                            <option value="sunflower">Sunflower</option>
+                            <option value="rice">Rice</option>
+                            <option value="barley">Barley</option>
+                            <option value="peanuts">Peanuts</option>
+                            <option value="beans">Beans</option>
+                            <option value="maize">Maize</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend class="section-title">⚙ Controls</legend>
+                <div class="controls">
+                    <button type="button" onclick="fetchRealData()">
+                        <i class="fas fa-sync-alt"></i> Fetch Real Data
+                    </button>
+                    <button type="submit"><i class="fas fa-play"></i> Recommend Planting Depth</button>
+                </div>
+            </fieldset>
+
+            <div id="status-message" class="status-display">📡 Status: Awaiting action...</div>
+            <div id="prediction-result" class="result-display">🔍 Recommendation Result: Not Available</div>
+        </form>
+    </div>
+                
+<script>
+    async function fetchRealData() {
+        try {
+            const response = await fetch('http://localhost:8000/fetch_real_data');
+            const data = await response.json();
+        
+            if (data.error) {
+                document.getElementById('status-message').innerText = `❌ Error: ${data.error}`;
+                return;
+            }
+            document.getElementById('temperature').value = data.temperature;
+            document.getElementById('rainfall').value = data.rainfall;
+            document.getElementById('humidity').value = data.humidity;
+
+            document.getElementById('status-message').innerText = '✅ Real-time data fetched successfully.';
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            document.getElementById('status-message').innerText = '❌ Failed to fetch real data.';
+        }
+    }
+   
+
+
+    async function submitData(event) {
+        event.preventDefault();
+        const formData = new FormData(document.getElementById('prediction-form'));
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('http://localhost:8000/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            if (result.prediction) {
+                document.getElementById('prediction-result').innerText = `🌾 Recommended Planting Depth: ${result.prediction} in`;
+                announceMessage(`Recommended planting depth is ${result.prediction} inches.`);
+            } else {
+                document.getElementById('prediction-result').innerText = '❌ Error: No prediction received.';
+                announceMessage('Error: No prediction received.');
+            }
+        } catch (error) {
+            console.error('Error submitting data:', error);
+            document.getElementById('prediction-result').innerText = '❌ Communication failed.';
+            announceMessage('Error: Communication failed.');
+        }
+    }
+
+    function announceMessage(message) {
+        const utterance = new SpeechSynthesisUtterance(message);
+        utterance.pitch = 1;
+        utterance.rate = 1;
+        utterance.volume = 1;
+        window.speechSynthesis.speak(utterance);
+    }
+</script>
+
+</body>
+</html>

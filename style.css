@@ -1,0 +1,268 @@
+/* Full-screen responsive layout */
+body {
+    font-family: 'Arial', sans-serif;
+    background: url('2.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    animation: fadeIn 2s ease-in-out; /* Page fade-in */
+    overflow: hidden; /* Prevent scrolling */
+    cursor: url('https://cdnjs.cloudflare.com/ajax/libs/3d-effect/1.0.0/cursors/cursor1.cur'), auto; /* Custom cursor */
+    animation: moveBackground 30s linear infinite; /* Slow background movement */
+}
+
+/* Slow background movement */
+@keyframes moveBackground {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+/* Other styles remain unchanged */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    background: rgba(255, 255, 255, 0.9); /* Slight transparency */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    transform: translateY(30px); /* Starts slightly lower */
+    opacity: 1; /* Set opacity to 1 initially */
+    animation: slideUp 1.5s ease-out forwards 0.5s; /* Slide and fade-in animation */
+    position: relative;
+    z-index: 10; /* Ensure it's above the background */
+    backdrop-filter: blur(15px); /* Adding blur effect behind the form */
+}
+
+/* The rest of your styles remain as is */
+
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Slide-up animation for container */
+@keyframes slideUp {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Heading */
+h1 {
+    color: #2e7d32;
+    font-size: 36px;
+    animation: shimmer 2s infinite alternate; /* Shimmer effect */
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: bold;
+}
+
+/* Shimmer effect */
+@keyframes shimmer {
+    0% {
+        color: #388e3c;
+    }
+    100% {
+        color: #2e7d32;
+    }
+}
+
+/* Form sections */
+fieldset {
+    border: 2px solid #ddd;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.95);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease, background 0.3s ease;
+    cursor: pointer;
+}
+
+fieldset:hover {
+    transform: scale(1.02); /* Slight zoom effect on hover */
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    background: rgba(255, 255, 255, 0.9); /* Change background on hover */
+}
+
+/* Legend */
+legend {
+    font-size: 22px;
+    font-weight: bold;
+    color: #388e3c;
+    animation: pop 0.5s ease-out; /* Animation for legend */
+}
+
+/* Pop animation */
+@keyframes pop {
+    0% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Grid layout for input fields */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+/* Labels */
+.feature label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    animation: fadeInUp 0.5s ease-out; /* Animation for labels */
+}
+
+/* Fade-in up animation for labels */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Input Fields & Dropdowns */
+input, select {
+    width: 90%;
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Soft initial shadow */
+    outline: none;
+}
+
+/* Highlight effect on focus */
+input:focus, select:focus {
+    border-color: #4CAF50; /* Green highlight */
+    box-shadow: 0 0 12px rgba(76, 175, 80, 0.5);
+    animation: bounce 0.2s ease; /* Bounce effect on focus */
+}
+
+/* Bounce animation */
+@keyframes bounce {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Glowing input field on hover */
+input:hover, select:hover {
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.6);
+}
+
+/* Buttons */
+button {
+    background: #388e3c;
+    color: white;
+    padding: 14px 24px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s ease;
+    transform: scale(1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Hover effect on buttons */
+button:hover {
+    background: #2e7d32;
+    transform: scale(1.05); /* Slight zoom effect on hover */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Glowing effect */
+}
+
+/* Glowing effect on button */
+button:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 255, 0, 0.3);
+    opacity: 0;
+    border-radius: 8px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+button:hover:after {
+    opacity: 1;
+}
+
+/* Status and Result Display */
+.status-display, .result-display {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #388e3c;
+    animation: pulse 2s infinite;
+}
+
+/* Pulse animation for status/result text */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Particle effect for button click (subtle effect) */
+@keyframes particleEffect {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+button:active {
+    animation: particleEffect 0.3s ease-in-out;
+}
