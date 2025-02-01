@@ -1,0 +1,80 @@
+>>> %Run -c $EDITOR_CONTENT
+Fitting 5 folds for each of 8 candidates, totalling 40 fits
+Fitting 5 folds for each of 2 candidates, totalling 10 fits
+
+Training Linear Regression...
+Linear Regression Cross-Validation MSE: -0.9095
+
+Training Support Vector Regressor (SVR)...
+Support Vector Regressor (SVR) Cross-Validation MSE: -0.7413
+
+Training Random Forest Regressor...
+Random Forest Regressor Cross-Validation MSE: -0.1856
+
+Training Decision Tree Regressor...
+Decision Tree Regressor Cross-Validation MSE: -0.3344
+
+Training K-Nearest Neighbors Regressor...
+K-Nearest Neighbors Regressor Cross-Validation MSE: -0.6568
+
+Training Gradient Boosting Regressor...
+Gradient Boosting Regressor Cross-Validation MSE: -0.1729
+
+Training AdaBoost Regressor...
+AdaBoost Regressor Cross-Validation MSE: -0.3056
+
+Training LightGBM Regressor...
+[LightGBM] [Info] Auto-choosing row-wise multi-threading, the overhead of testing was 0.000689 seconds.
+You can set `force_row_wise=true` to remove the overhead.
+And if memory is not enough, you can set `force_col_wise=true`.
+[LightGBM] [Info] Total Bins 1036
+[LightGBM] [Info] Number of data points in the train set: 12320, number of used features: 6
+[LightGBM] [Info] Start training from score 2.362175
+[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.000139 seconds.
+You can set `force_col_wise=true` to remove the overhead.
+[LightGBM] [Info] Total Bins 1036
+[LightGBM] [Info] Number of data points in the train set: 12320, number of used features: 6
+[LightGBM] [Info] Start training from score 2.359612
+[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.000140 seconds.
+You can set `force_col_wise=true` to remove the overhead.
+[LightGBM] [Info] Total Bins 1036
+[LightGBM] [Info] Number of data points in the train set: 12320, number of used features: 6
+[LightGBM] [Info] Start training from score 2.362511
+[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.000189 seconds.
+You can set `force_col_wise=true` to remove the overhead.
+[LightGBM] [Info] Total Bins 1036
+[LightGBM] [Info] Number of data points in the train set: 12320, number of used features: 6
+[LightGBM] [Info] Start training from score 2.355571
+[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.000156 seconds.
+You can set `force_col_wise=true` to remove the overhead.
+[LightGBM] [Info] Total Bins 1036
+[LightGBM] [Info] Number of data points in the train set: 12320, number of used features: 6
+[LightGBM] [Info] Start training from score 2.361265
+LightGBM Regressor Cross-Validation MSE: -0.1737
+
+Training XGBoost Regressor...
+XGBoost Regressor Cross-Validation MSE: -0.1893
+
+Training CatBoost Regressor...
+CatBoost Regressor Cross-Validation MSE: -0.1728
+
+Training MLP Regressor...
+MLP Regressor Cross-Validation MSE: -0.3973
+[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.000162 seconds.
+You can set `force_col_wise=true` to remove the overhead.
+[LightGBM] [Info] Total Bins 1036
+[LightGBM] [Info] Number of data points in the train set: 15400, number of used features: 6
+[LightGBM] [Info] Start training from score 2.360227
+
+Ensemble Voting Regressor MSE: 0.1748
+Ensemble Voting Regressor R²: 0.8732
+CatBoost Regressor - MSE: 0.1776, R²: 0.8711
+Gradient Boosting Regressor - MSE: 0.1751, R²: 0.8730
+[LightGBM] [Info] Auto-choosing col-wise multi-threading, the overhead of testing was 0.000202 seconds.
+You can set `force_col_wise=true` to remove the overhead.
+[LightGBM] [Info] Total Bins 1036
+[LightGBM] [Info] Number of data points in the train set: 15400, number of used features: 6
+[LightGBM] [Info] Start training from score 2.360227
+LightGBM Regressor - MSE: 0.1764, R²: 0.8720
+Random Forest Regressor - MSE: 0.1886, R²: 0.8632
+>>> 
