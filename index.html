@@ -10,64 +10,72 @@
 
 <body>
     <div class="container">
-        <h1 class="main-heading">🌱 AI-Based Smart Seed Planting Depth Predictor</h1>
+        <h1 class="main-heading" id="main-heading">🌱 ML-Based Smart Seed Planting Depth Predictor</h1>
+        <select id="language-select" onchange="translatePage()">
+            <option value="en">English</option>
+            <option value="hi">हिंदी</option>
+            <option value="te">తెలుగు</option>
+            <option value="kn">ಕನ್ನಡ</option>
+            <option value="ta">தமிழ்</option>
+            <option value="ml">മലയാളം</option>
+        </select>
 
         <form id="prediction-form" onsubmit="submitData(event)">
             <fieldset>
-                <legend class="section-title">🌍 Soil & Weather Data</legend>
+                <legend class="section-title" id="legend-soil">🌍 Soil & Weather Data</legend>
                 <div class="feature-grid">
                     <div class="feature">
-                        <label for="soil-type"><i class="fas fa-seedling"></i> Soil Type:</label>
+                        <label for="soil-type" id="label-soil"><i class="fas fa-seedling"></i> Soil Type:</label>
                         <select id="soil-type" name="soil_type" required>
-                            <option value="" disabled selected>Select Soil Type</option>
-                            <option value="clay">Clay</option>
-                            <option value="loamy">Loamy</option>
-                            <option value="sandy">Sandy</option>
+                            <option value="" disabled selected class="soil-option">Select Soil Type</option>
+                            <option value="clay" class="soil-option">Clay</option>
+                            <option value="loamy" class="soil-option">Loamy</option>
+                            <option value="sandy" class="soil-option">Sandy</option>
                         </select>
                     </div>
                     <div class="feature">
-                        <label for="soil-moisture"><i class="fas fa-tint"></i> Soil Moisture (%):</label>
+                        <label for="soil-moisture" id="label-moisture"><i class="fas fa-tint"></i> Soil Moisture (%):</label>
                         <input type="number" id="soil-moisture" name="soil_moisture" min="0" max="100" step="0.01" value="50.00" required>
                     </div>
                     <div class="feature">
-                        <label for="temperature"><i class="fas fa-thermometer-half"></i> Temperature (°C):</label>
+                        <label for="temperature" id="label-temp"><i class="fas fa-thermometer-half"></i> Temperature (°C):</label>
                         <input type="number" id="temperature" name="temperature"  step="0.01" required>
                     </div>
                     <div class="feature">
-                        <label for="rainfall"><i class="fas fa-cloud-showers-heavy"></i> Rainfall (mm):</label>
+                        <label for="rainfall" id="label-rain"><i class="fas fa-cloud-showers-heavy"></i> Rainfall (mm):</label>
                         <input type="number" id="rainfall" name="rainfall" step="0.01" required>
                     </div>
                     <div class="feature">
-                        <label for="humidity"><i class="fas fa-water"></i> Humidity (%):</label>
+                        <label for="humidity" id="label-humidity"><i class="fas fa-water"></i> Humidity (%):</label>
                         <input type="number" id="humidity" name="humidity" step="0.01" required>
                     </div>
                     <div class="feature">
-                        <label for="seed-type"><i class="fas fa-seedling"></i> Seed Type:</label>
+                        <label for="seed-type" id="label-seed"><i class="fas fa-seedling"></i> Seed Type:</label>
                         <select id="seed-type" name="seed_type" required>
-                            <option value="" disabled selected>Select Seed Type</option>
-                            <option value="wheat">Wheat</option>
-                            <option value="carrot">Carrot</option>
-                            <option value="soybean">Soybean</option>
-                            <option value="cotton">Cotton</option>
-                            <option value="corn">Corn</option>
-                            <option value="sunflower">Sunflower</option>
-                            <option value="rice">Rice</option>
-                            <option value="barley">Barley</option>
-                            <option value="peanuts">Peanuts</option>
-                            <option value="beans">Beans</option>
-                            <option value="maize">Maize</option>
+                            <option value="" disabled selected class="seed-option">Select Seed Type</option>
+                            <option value="wheat" class="seed-option">Wheat</option>
+                            <option value="carrot" class="seed-option">Carrot</option>
+                            <option value="soybean" class="seed-option">Soybean</option>
+                            <option value="cotton" class="seed-option">Cotton</option>
+                            <option value="corn" class="seed-option">Corn</option>
+                            <option value="sunflower" class="seed-option">Sunflower</option>
+                            <option value="rice" class="seed-option">Rice</option>
+                            <option value="barley" class="seed-option">Barley</option>
+                            <option value="peanuts" class="seed-option">Peanuts</option>
+                            <option value="beans" class="seed-option">Beans</option>
+                            <option value="maize" class="seed-option">Maize</option>
                         </select>
                     </div>
                 </div>
             </fieldset>
 
             <fieldset>
-                <legend class="section-title">⚙ Controls</legend>
+                <legend class="section-title" id="legend-controls">⚙ Controls</legend>
                 <div class="controls">
-                    <button type="button" onclick="fetchRealData()">
+                    <button type="button" onclick="fetchRealData()" id="fetch-button">
                         <i class="fas fa-sync-alt"></i> Fetch Real Data
                     </button>
-                    <button type="submit"><i class="fas fa-play"></i> Recommend Planting Depth</button>
+                    <button type="submit" id="submit-button"><i class="fas fa-play"></i> Recommend Planting Depth</button>
                 </div>
             </fieldset>
 
@@ -77,32 +85,85 @@
     </div>
                 
 <script>
+    function extractEmojis(text) {
+        return text.match(/[\p{Emoji}\p{Extended_Pictographic}]/gu) || [];
+    }
+
+    async function translateText(text, sourceLang, targetLang) {
+        const emojis = extractEmojis(text); // Extract emojis
+        const textWithoutEmojis = text.replace(/[\p{Emoji}\p{Extended_Pictographic}]/gu, ""); // Remove emojis
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURIComponent(textWithoutEmojis)}`;
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            return data[0][0][0];
+        } catch (error) {
+            console.error("Translation error: ", error);
+            return text;
+        }
+    }
+
+    async function translatePage() {
+        const lang = document.getElementById("language-select").value;
+        const elementsToTranslate = ["main-heading", "legend-soil", "legend-controls", "label-soil", "label-moisture", "label-temp", "label-rain", "label-humidity", "label-seed", "fetch-button", "submit-button", "status-message", "prediction-result"];
+
+        for (const id of elementsToTranslate) {
+            const element = document.getElementById(id);
+            if (element) {
+                const detectedLang = document.documentElement.lang || "en"; // Default to English
+                element.innerText = await translateText(element.innerText, detectedLang, lang);
+            }
+        }
+
+        const soilOptions = document.querySelectorAll(".soil-option");
+        for (const option of soilOptions) {
+            const detectedLang = document.documentElement.lang || "en";
+            option.innerText = await translateText(option.innerText, detectedLang, lang);
+        }
+
+        const seedOptions = document.querySelectorAll(".seed-option");
+        for (const option of seedOptions) {
+            const detectedLang = document.documentElement.lang || "en";
+            option.innerText = await translateText(option.innerText, detectedLang, lang);
+        }
+
+        document.documentElement.lang = lang; // Update page language
+    }
+
+
     async function fetchRealData() {
+        const lang = document.getElementById("language-select").value;
         try {
             const response = await fetch('http://localhost:8000/fetch_real_data');
             const data = await response.json();
-        
+
             if (data.error) {
-                document.getElementById('status-message').innerText = `❌ Error: ${data.error}`;
+                const errorMessage = await translateText(`Error: ${data.error}`, 'en', lang);
+                document.getElementById('status-message').innerText = `❌ ${errorMessage}`;
                 return;
             }
+
             document.getElementById('temperature').value = data.temperature;
             document.getElementById('rainfall').value = data.rainfall;
             document.getElementById('humidity').value = data.humidity;
 
-            document.getElementById('status-message').innerText = '✅ Real-time data fetched successfully.';
+            const successMessage = await translateText('Real-time data fetched successfully.', 'en', lang);
+            document.getElementById('status-message').innerText = `✅ ${successMessage}`;;
+
         } catch (error) {
             console.error('Error fetching data:', error);
-            document.getElementById('status-message').innerText = '❌ Failed to fetch real data.';
+            const failedMessage = await translateText('Failed to fetch real data.', 'en', lang);
+            document.getElementById('status-message').innerText = `❌ ${failedMessage}`;;
         }
     }
+
+
    
-
-
     async function submitData(event) {
         event.preventDefault();
         const formData = new FormData(document.getElementById('prediction-form'));
         const data = Object.fromEntries(formData.entries());
+        const lang = document.getElementById("language-select").value;
 
         try {
             const response = await fetch('http://localhost:8000/predict', {
@@ -113,21 +174,32 @@
 
             const result = await response.json();
             if (result.prediction) {
-                document.getElementById('prediction-result').innerText = `🌾 Recommended Planting Depth: ${result.prediction} in`;
-                announceMessage(`Recommended planting depth is ${result.prediction} inches.`);
+                const recommendation = `🌾 Recommended Planting Depth: ${result.prediction} inches.`;
+                document.getElementById('prediction-result').innerText = recommendation;
+
+                // Translate the text part of the recommendation
+                const translatedText = await translateText(`🌾 Recommended Planting Depth:`, 'en', lang);
+
+                // Display the translated recommendation with the number intact
+                document.getElementById('prediction-result').innerText = `🌾 ${translatedText} ${result.prediction} inches.`;
+
+                // Announce the translated recommendation with the number
+                announceMessage(`${translatedText} ${result.prediction} inches.`, lang);
             } else {
                 document.getElementById('prediction-result').innerText = '❌ Error: No prediction received.';
-                announceMessage('Error: No prediction received.');
+                announceMessage('Error: No prediction received.', lang);
             }
         } catch (error) {
             console.error('Error submitting data:', error);
             document.getElementById('prediction-result').innerText = '❌ Communication failed.';
-            announceMessage('Error: Communication failed.');
+            announceMessage('Error: Communication failed.', lang);
         }
     }
 
-    function announceMessage(message) {
+
+    function announceMessage(message, lang) {
         const utterance = new SpeechSynthesisUtterance(message);
+        utterance.lang = lang;
         utterance.pitch = 1;
         utterance.rate = 1;
         utterance.volume = 1;
