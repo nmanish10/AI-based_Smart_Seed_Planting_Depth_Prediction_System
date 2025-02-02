@@ -53,7 +53,7 @@ async def fetch_real_data():
             # Extract required fields from OpenWeather response
             real_data = {  # You might need additional sensor data for soil moisture
                 "temperature": data['main']['temp'],
-                "rainfall": data.get('rain', {}).get('24h', 0),  # Rainfall for the last hour, default 0 if no rain
+                "rainfall": data.get('rain', {}).get('24h', 0),  # Rainfall for the last 24 hours, default 0 if no rain
                 "humidity": data['main']['humidity']
             }
             return real_data
